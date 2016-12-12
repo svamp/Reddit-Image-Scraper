@@ -36,7 +36,7 @@ def handle_albums(imgur_id, subreddit, custom_path):
 	album = imgur_client.get_album(imgur_id)
 	if album.title:
 		# Replaces charactes Windows doesn't like
-		folder_name = album.title.replace(' ', '_').replace(':','-').replace('/', '-')
+		folder_name = album.title.replace('/', '').replace('?', '').replace('<', '').replace('>', '').replace('\\', '').replace(':', '-').replace('*', '').replace('|', '')
 	else:
 		folder_name = imgur_id
 
@@ -55,6 +55,7 @@ def handle_albums(imgur_id, subreddit, custom_path):
 		if not os.path.isfile(os.path.join(folder_path, image_name)):
 			with urlopen(image.link) as response, open(os.path.join(folder_path, image_name), 'wb') as out_file:
 				shutil.copyfileobj(response, out_file)
+
 	
 def main():
 	
